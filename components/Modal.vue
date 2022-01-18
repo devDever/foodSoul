@@ -6,11 +6,11 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import {Action, Getter} from "vuex-class";
+import {Action, Getter, State} from "vuex-class";
 
 @Component
 export default class Modal extends Vue {
-  @Getter('modal/modal') modal!: Modal
+  @State(modal => modal.modal.modal) modal!: Modal
   @Action('modal/hideModal') hideModal!: () => void
   mounted () {
     setTimeout(() => {

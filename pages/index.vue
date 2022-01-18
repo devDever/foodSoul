@@ -5,21 +5,12 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { Vue, Component, Prop } from 'vue-property-decorator'
 import { Product } from '~/Interfaces/Product'
+import {Action, State} from "vuex-class";
 
-export default Vue.extend({
-  name: 'IndexPage',
-  data () {
-    return {
-      products: []
-    }
-  },
-  async fetch () {
-    this.products = (await this.$axios.get('products')).data
-    this.products.forEach((product: Product) => {
-      product.count = 0
-    })
-  }
-})
+@Component
+export default class YourComponent extends Vue {
+  @State('products') products!: Product[]
+}
 </script>

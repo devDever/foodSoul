@@ -1,18 +1,20 @@
 <template>
   <nuxt-link to="basket" class="basket">
-    В корзине: {{ basket.length }} <br>
+    В корзине: {{ basketCount }} <br>
     {{ amount }} ₽
   </nuxt-link>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
-import { Action, Getter } from "vuex-class";
+import {State, namespace} from "vuex-class";
 import {Product} from "~/Interfaces/Product";
+const basketStore = namespace('basket')
 @Component
 export default class BasketIcon extends Vue {
-  @Getter('basket/basket') basket!: Product[]
-  @Getter('basket/amount') amount!: number
+  @State(store => store.basket.basket) basket!: Product[]
+  @State(store => store.basket.amount) amount!: number
+  @State(store => store.basket.basketCount) basketCount!: number
 }
 </script>
 

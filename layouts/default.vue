@@ -1,7 +1,7 @@
 <template>
   <div>
     <transition name="slide">
-      <BasketIcon v-if="basket.length" />
+      <BasketIcon v-if="basket" />
     </transition>
     <Nuxt />
     <transition name="bounce">
@@ -12,17 +12,17 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
-import { Action, Getter } from "vuex-class";
+import {Action, State, namespace} from "vuex-class";
 import {Product} from "~/Interfaces/Product";
 import {Modal} from "~/Interfaces/Modal";
 @Component
 export default class Default extends Vue {
-  @Getter('basket/basket') basket!: Product[]
-  @Getter('modal/modal') modal!: Modal
-  @Action('basket/getFromLocal') getLocalProducts: any
-  mounted() {
-    this.getLocalProducts()
-  }
+  @State(store => store.basket.basket) basket!: Product[]
+  @State(store => store.modal.modal) modal!: Modal
+  // @Action('basket/getFromLocal') getLocalProducts: any
+  // mounted() {
+  //   this.getLocalProducts()
+  // }
 }
 </script>
 

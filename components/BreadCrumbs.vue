@@ -6,8 +6,6 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import { Product } from '~/Interfaces/Product'
-import { Action, Getter } from "vuex-class";
 
 
 @Component

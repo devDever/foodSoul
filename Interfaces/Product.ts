@@ -7,7 +7,7 @@ export interface Product {
   image?: string,
   count?: number,
   rating?: {
-    rate: number,
-    count: number
+    rate?: number,
+    count?: number
   }
 }

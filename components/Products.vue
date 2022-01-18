@@ -1,6 +1,9 @@
 <template>
   <div class="products">
     <div v-for="(product, index) in products" :key="index" class="product">
+      <div class="rating">
+        ⭐ {{ product.rating.rate }}
+      </div>
       <div class="image">
         <img :src="product.image" :alt="product.title">
       </div>
@@ -13,41 +16,45 @@
         </p>
       </div>
       <div class="action">
-        <div class="count" v-if="product.count >= 1">
-          <button class="minus" @click="decrementProductCount(product)" :disabled="product.count <= 0">-</button>
+        <div class="count" v-if="isInBasket(product)">
+          <button class="minus" @click="decrementProductCount(product)" :disabled="product.count <= 1" v-if="product.count >= 2">-</button>
+          <button class="minus" @click="removeProduct(product)" v-else>X</button>
           <span>{{ product.count }}</span>
           <button class="plus" @click="incrementProductCount(product)">+</button>
         </div>
-        <BasketButton v-else @addToBasket="addToBasket(product)" />
+        <BasketButton v-else @addToBasket="addToBasket(product)"/>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator'
-import { Product } from '~/Interfaces/Product'
-import { Action, Getter } from "vuex-class";
+import {Component, Prop, Vue} from 'vue-property-decorator'
+import {Product} from '~/Interfaces/Product'
+import {Action, State} from "vuex-class";
 
 @Component
 export default class YourComponent extends Vue {
-  @Getter('basket/basket') basket!: Product[]
+  @State(store => store.basket.basket) basket!: Product[]
   @Action('basket/addProduct') addProduct!: (addProduct: Product) => void
   @Action('basket/incrementProductCount') incrementProductCount!: (incrementProductCount: Product) => void
   @Action('basket/decrementProductCount') decrementProductCount!: (decrementProductCount: Product) => void
-    addToBasket(product: Product) {
-      this.addProduct(product)
-    }
-  @Prop({
-    type: Array,
-    required: true
-  }) readonly products!: Product[]
+  @Action('basket/removeProduct') removeProduct!: (removeProduct: Product) => void
+  @Prop({type: Array, required: true}) readonly products!: Product[]
+
+  addToBasket(product: Product) {
+    this.addProduct(product)
+  }
+
+  isInBasket(product: Product){
+    return this.basket.some(p => p.id === product.id)
+  }
 }
 </script>
 
 <style lang="scss" scoped>
-.count{
-  input{
+.count {
+  input {
     max-width: rem(20);
     border: 1px solid;
   }

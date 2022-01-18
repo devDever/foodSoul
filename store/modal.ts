@@ -11,9 +11,7 @@ export const state = () => ({
 
 export type RootState = ReturnType<typeof state>
 
-export const getters: GetterTree<RootState, RootState> = {
-  modal: state => state.modal,
-}
+export const getters: GetterTree<RootState, RootState> = {}
 
 export const mutations: MutationTree<RootState> = {
   SHOW_MODAL: (state, data: Modal) => {
